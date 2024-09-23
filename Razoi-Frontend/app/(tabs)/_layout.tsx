@@ -12,6 +12,15 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tabIconDefault,
+        tabBarStyle: {
+          backgroundColor: Colors[colorScheme ?? 'light'].background,
+          borderTopWidth: 1,
+          borderTopColor: Colors[colorScheme ?? 'light'].tabIconDefault, // Use tabIconDefault for the border color
+        },
+        tabBarLabelStyle: {
+          fontSize: 14,
+        },
         headerShown: false,
       }}>
       <Tabs.Screen
@@ -19,16 +28,25 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} size={focused ? 28 : 24} />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="browseMenu"
         options={{
-          title: 'Explore',
+          title: 'Browse Menu',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'list' : 'list-outline'} color={color} size={focused ? 28 : 24} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="account"
+        options={{
+          title: 'Account',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'person' : 'person-outline'} color={color} size={focused ? 28 : 24} />
           ),
         }}
       />
