@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // For the dropdown icon
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import Header from '../../components/Header'; // Import the header component
 
 interface Dish {
   id: string;
@@ -19,9 +19,7 @@ const BrowseMenu: React.FC = () => {
   const [address, setAddress] = useState<string>('123 Street, City');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  // Categories based on your provided list
   const categories: Category[] = [
-    // Cuisines
     { id: '1', name: 'Indian', icon: 'https://via.placeholder.com/50' },
     { id: '2', name: 'South Indian', icon: 'https://via.placeholder.com/50' },
     { id: '3', name: 'Chinese', icon: 'https://via.placeholder.com/50' },
@@ -43,20 +41,17 @@ const BrowseMenu: React.FC = () => {
     { id: '18', name: 'Starters', icon: 'https://via.placeholder.com/50' },
     { id: '19', name: 'Beverages', icon: 'https://via.placeholder.com/50' },
     { id: '20', name: 'Desserts', icon: 'https://via.placeholder.com/50' },
+    // Add more categories
   ];
 
-  // Sample data for dishes (you should replace this with actual data)
   const dishes: Dish[] = [
     { id: '1', name: 'Chicken Biryani', image: 'https://via.placeholder.com/100', price: '$10' },
     { id: '2', name: 'Paneer Butter Masala', image: 'https://via.placeholder.com/100', price: '$8' },
-    { id: '3', name: 'Gulab Jamun', image: 'https://via.placeholder.com/100', price: '$4' },
-    { id: '4', name: 'Masala Dosa', image: 'https://via.placeholder.com/100', price: '$5' },
+    // Add more dishes
   ];
 
-  // Filter dishes based on selected category (placeholder logic)
   const filteredDishes = selectedCategory ? dishes : [];
 
-  // Render each category as a button with an icon
   const renderCategoryItem = ({ item }: { item: Category }) => (
     <TouchableOpacity
       style={[
@@ -77,7 +72,6 @@ const BrowseMenu: React.FC = () => {
     </TouchableOpacity>
   );
 
-  // Render dishes for the selected category
   const renderDishItem = ({ item }: { item: Dish }) => (
     <TouchableOpacity style={styles.dishItem}>
       <Image source={{ uri: item.image }} style={styles.dishImage} />
@@ -89,89 +83,52 @@ const BrowseMenu: React.FC = () => {
   );
 
   return (
-    <ScrollView style={styles.container}>
-      {/* Address and Dropdown Section */}
-      <View style={styles.addressContainer}>
-        <TouchableOpacity style={styles.addressTextContainer}>
-          <Text style={styles.addressText}>{address}</Text>
-          <Ionicons name="chevron-down-outline" size={20} color="#B71C1C" />
-        </TouchableOpacity>
-      </View>
+    <View style={styles.container}>
+      {/* Fixed Header */}
+      <Header address={address} setAddress={setAddress} />
 
-      {/* Search Bar */}
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Search for dishes..."
-        placeholderTextColor="#888"
-      />
+      {/* Scrollable Content */}
+      <ScrollView>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Browse Menu</Text>
+          <FlatList
+            data={categories}
+            renderItem={renderCategoryItem}
+            keyExtractor={(item) => item.id}
+            numColumns={3}
+            columnWrapperStyle={styles.categoryRow}
+            scrollEnabled={false} // Disable scrolling for the FlatList inside the ScrollView
+          />
+        </View>
 
-      {/* Categories Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Browse Menu</Text>
-        <FlatList
-          data={categories}
-          renderItem={renderCategoryItem}
-          keyExtractor={(item) => item.id}
-          numColumns={3}
-          columnWrapperStyle={styles.categoryRow}
-          scrollEnabled={false} // Disable scrolling for the FlatList since we are inside ScrollView
-        />
-      </View>
-
-      {/* Dishes Section */}
-      <View style={styles.section}>
-        {selectedCategory ? (
-          <>
-            <Text style={styles.sectionTitle}>Dishes</Text>
-            <FlatList
-              data={filteredDishes}
-              renderItem={renderDishItem}
-              keyExtractor={(item) => item.id}
-              scrollEnabled={false} // Disable FlatList scrolling
-            />
-          </>
-        ) : (
-          <Text style={styles.selectCategoryText}>Please select a category</Text>
-        )}
-      </View>
-    </ScrollView>
+        <View style={styles.section}>
+          {selectedCategory ? (
+            <>
+              <Text style={styles.sectionTitle}>Dishes</Text>
+              <FlatList
+                data={filteredDishes}
+                renderItem={renderDishItem}
+                keyExtractor={(item) => item.id}
+                scrollEnabled={false} // Disable FlatList scrolling
+              />
+            </>
+          ) : (
+            <Text style={styles.selectCategoryText}>Please select a category</Text>
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#fff',
-  },
-  addressContainer: {
-    marginBottom: 10,
-  },
-  addressTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#B71C1C',
-    paddingBottom: 5,
-  },
-  addressText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#B71C1C',
-    flex: 1,
-  },
-  searchBar: {
-    backgroundColor: '#f1f1f1',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginTop: 10,
-    marginBottom: 20,
-    fontSize: 16,
-    color: '#333',
   },
   section: {
     marginBottom: 30,
+    paddingHorizontal: 20,
   },
   sectionTitle: {
     fontSize: 18,
@@ -209,12 +166,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
-  selectCategoryText: {
-    fontSize: 18,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: 50,
-  },
   dishItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -242,6 +193,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#B71C1C',
     fontWeight: 'bold',
+  },
+  selectCategoryText: {
+    fontSize: 18,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 50,
   },
 });
 
