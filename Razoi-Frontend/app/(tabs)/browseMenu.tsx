@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from 'react-native';
 import Header from '../../components/Header'; // Import the header component
 
 interface Dish {
@@ -45,8 +53,18 @@ const BrowseMenu: React.FC = () => {
   ];
 
   const dishes: Dish[] = [
-    { id: '1', name: 'Chicken Biryani', image: 'https://via.placeholder.com/100', price: '$10' },
-    { id: '2', name: 'Paneer Butter Masala', image: 'https://via.placeholder.com/100', price: '$8' },
+    {
+      id: '1',
+      name: 'Chicken Biryani',
+      image: 'https://via.placeholder.com/100',
+      price: '$10',
+    },
+    {
+      id: '2',
+      name: 'Paneer Butter Masala',
+      image: 'https://via.placeholder.com/100',
+      price: '$8',
+    },
     // Add more dishes
   ];
 
@@ -88,7 +106,7 @@ const BrowseMenu: React.FC = () => {
       <Header address={address} setAddress={setAddress} />
 
       {/* Scrollable Content */}
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Browse Menu</Text>
           <FlatList
@@ -101,21 +119,17 @@ const BrowseMenu: React.FC = () => {
           />
         </View>
 
-        <View style={styles.section}>
-          {selectedCategory ? (
-            <>
-              <Text style={styles.sectionTitle}>Dishes</Text>
-              <FlatList
-                data={filteredDishes}
-                renderItem={renderDishItem}
-                keyExtractor={(item) => item.id}
-                scrollEnabled={false} // Disable FlatList scrolling
-              />
-            </>
-          ) : (
-            <Text style={styles.selectCategoryText}>Please select a category</Text>
-          )}
-        </View>
+        {selectedCategory && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Dishes</Text>
+            <FlatList
+              data={filteredDishes}
+              renderItem={renderDishItem}
+              keyExtractor={(item) => item.id}
+              scrollEnabled={false}
+            />
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -124,17 +138,20 @@ const BrowseMenu: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F9F9F9',
+  },
+  scrollViewContent: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
   section: {
     marginBottom: 30,
-    paddingHorizontal: 20,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#B71C1C',
-    marginBottom: 10,
+    marginBottom: 20,
   },
   categoryRow: {
     justifyContent: 'space-between',
@@ -143,18 +160,21 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 5,
     alignItems: 'center',
-    paddingVertical: 10,
-    backgroundColor: '#f1f1f1',
+    paddingVertical: 15,
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    backgroundColor: '#FFFFFF',
   },
   selectedCategoryItem: {
     backgroundColor: '#B71C1C',
+    borderColor: '#B71C1C',
   },
   categoryIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginBottom: 5,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginBottom: 10,
   },
   categoryText: {
     fontSize: 14,
@@ -163,16 +183,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectedCategoryText: {
-    color: '#fff',
+    color: '#FFFFFF',
     fontWeight: 'bold',
   },
   dishItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
-    backgroundColor: '#f1f1f1',
+    backgroundColor: '#FFFFFF',
     padding: 15,
     borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   dishImage: {
     width: 80,

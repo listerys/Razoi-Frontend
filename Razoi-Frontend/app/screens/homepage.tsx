@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // Use this for the dropdown icon
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import Header from '../../components/Header'; // Import Header component
+import { Ionicons } from '@expo/vector-icons';
 
 interface Dish {
   id: string;
@@ -51,59 +61,51 @@ const HomeScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Address and Dropdown Section */}
-      <View style={styles.addressContainer}>
-        <TouchableOpacity style={styles.addressTextContainer}>
-          <Text style={styles.addressText}>{address}</Text>
-          <Ionicons name="chevron-down-outline" size={20} color="#B71C1C" />
-        </TouchableOpacity>
-      </View>
+      {/* Fixed Header */}
+      <Header address={address} setAddress={setAddress} />
 
-      {/* Search Bar */}
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Search for dishes..."
-        placeholderTextColor="#888"
-      />
+      {/* Scrollable Content */}
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        {/* Greeting Section */}
+        <Text style={styles.greetingText}>Hi, {userName}</Text>
 
-      {/* Greeting Section */}
-      <Text style={styles.greetingText}>Hi, {userName}</Text>
 
-      {/* Food Categories Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Categories</Text>
-        <FlatList
-          horizontal
-          data={categories}
-          renderItem={renderCategoryItem}
-          keyExtractor={item => item.id}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
+        {/* Food Categories Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Categories</Text>
+          <FlatList
+            horizontal
+            data={categories}
+            renderItem={renderCategoryItem}
+            keyExtractor={(item) => item.id}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
 
-      {/* Popular Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Popular</Text>
-        <FlatList
-          horizontal
-          data={dishes}
-          renderItem={renderDishItem}
-          keyExtractor={item => item.id}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
+        {/* Popular Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Popular</Text>
+          <FlatList
+            horizontal
+            data={dishes}
+            renderItem={renderDishItem}
+            keyExtractor={(item) => item.id}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
 
-      {/* Order Again Section */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Order Again</Text>
-        <FlatList
-          horizontal
-          data={dishes}
-          renderItem={renderDishItem}
-          keyExtractor={item => item.id}
-          showsHorizontalScrollIndicator={false}
-        />
-      </View>
+        {/* Order Again Section */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Order Again</Text>
+          <FlatList
+            horizontal
+            data={dishes}
+            renderItem={renderDishItem}
+            keyExtractor={(item) => item.id}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -111,34 +113,11 @@ const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#F9F9F9',
   },
-  addressContainer: {
-    marginBottom: 10,
-  },
-  addressTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#B71C1C',
-    paddingBottom: 5,
-  },
-  addressText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#B71C1C',
-  },
-  searchBar: {
-    backgroundColor: '#f1f1f1',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    marginTop: 10,
-    marginBottom: 20,
-    fontSize: 16,
-    color: '#333',
+  scrollViewContent: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
   greetingText: {
     fontSize: 24,
@@ -146,48 +125,68 @@ const styles = StyleSheet.create({
     color: '#B71C1C',
     marginBottom: 20,
   },
+  searchContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    alignItems: 'center',
+    marginBottom: 30,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  searchBar: {
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 16,
+    color: '#333',
+  },
   section: {
     marginBottom: 30,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#B71C1C',
-    marginBottom: 10,
+    marginBottom: 20,
   },
   categoryItem: {
-    marginRight: 15,
+    marginRight: 20,
     alignItems: 'center',
   },
   categoryIcon: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginBottom: 5,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    marginBottom: 10,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
   },
   categoryText: {
     fontSize: 14,
     fontWeight: '500',
     color: '#333',
+    textAlign: 'center',
   },
   dishItem: {
-    marginRight: 15,
-    backgroundColor: '#f1f1f1',
-    borderRadius: 10,
-    padding: 10,
+    marginRight: 20,
     alignItems: 'center',
   },
   dishImage: {
-    width: 100,
-    height: 100,
+    width: 140,
+    height: 140,
     borderRadius: 10,
     marginBottom: 10,
+    backgroundColor: '#FFFFFF',
   },
   dishName: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
     textAlign: 'center',
+    width: 140,
   },
 });
 

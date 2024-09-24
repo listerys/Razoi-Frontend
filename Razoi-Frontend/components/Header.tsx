@@ -21,7 +21,6 @@ const Header: React.FC<HeaderProps> = ({ address, setAddress }) => {
         style={styles.searchBar}
         placeholder="Search for dishes..."
         placeholderTextColor="#888"
-        value="Search for dishes..."
       />
     </View>
   );
