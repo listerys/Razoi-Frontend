@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'; // For the dropdown icon
+import { Ionicons } from '@expo/vector-icons';
 
 interface HeaderProps {
   address: string;
@@ -10,18 +10,33 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ address, setAddress }) => {
   return (
     <View style={styles.headerContainer}>
-      <View style={styles.addressContainer}>
-        <TouchableOpacity style={styles.addressTextContainer}>
-          <Text style={styles.addressText}>{address}</Text>
-          <Ionicons name="chevron-down-outline" size={20} color="#B71C1C" />
+      {/* Top Section with Address and Profile Icon */}
+      <View style={styles.topRow}>
+        <View>
+          <Text style={styles.deliveryText}>Deliver Now</Text>
+          <TouchableOpacity style={styles.addressTextContainer}>
+            <Text style={styles.addressText}>{address}</Text>
+            <Ionicons name="chevron-down-outline" size={20} color="#000" />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.profileIconContainer}>
+          <Ionicons name="person-circle-outline" size={30} color="#000" />
         </TouchableOpacity>
       </View>
-      
-      <TextInput
-        style={styles.searchBar}
-        placeholder="Search for dishes..."
-        placeholderTextColor="#888"
-      />
+
+      {/* Search Bar Section */}
+      <View style={styles.searchBarContainer}>
+        <Ionicons name="search-outline" size={20} color="#888" style={styles.searchIcon} />
+        <TextInput
+          style={styles.searchBar}
+          placeholder="Search for dishes & restaurants"
+          placeholderTextColor="#888"
+        />
+        <Ionicons name="mic-outline" size={20} color="#888" style={styles.micIcon} />
+        <TouchableOpacity style={styles.filterIconContainer}>
+          <Ionicons name="options-outline" size={20} color="#000" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -30,33 +45,58 @@ const styles = StyleSheet.create({
   headerContainer: {
     width: '100%',
     backgroundColor: '#fff',
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
-  addressContainer: {
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 10,
+  },
+  deliveryText: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 3,
   },
   addressTextContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: '#B71C1C',
-    paddingBottom: 5,
   },
   addressText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
-    color: '#B71C1C',
+    color: '#000',
   },
-  searchBar: {
-    backgroundColor: '#f1f1f1',
-    borderRadius: 8,
+  profileIconContainer: {
+    padding: 5,
+  },
+  searchBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0', // Light gray background for the search bar
+    borderRadius: 25,
     paddingVertical: 10,
     paddingHorizontal: 15,
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchBar: {
+    flex: 1,
     fontSize: 16,
     color: '#333',
+  },
+  micIcon: {
+    marginLeft: 10,
+  },
+  filterIconContainer: {
+    marginLeft: 10,
+    padding: 8,
+    backgroundColor: '#e0e0e0', // Soft background color for filter icon
+    borderRadius: 25, // Circular shape
   },
 });
 

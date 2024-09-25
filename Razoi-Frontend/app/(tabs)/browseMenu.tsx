@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  ScrollView,
 } from 'react-native';
 import Header from '../../components/Header'; // Import the header component
 
@@ -105,32 +104,34 @@ const BrowseMenu: React.FC = () => {
       {/* Fixed Header */}
       <Header address={address} setAddress={setAddress} />
 
-      {/* Scrollable Content */}
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Browse Menu</Text>
-          <FlatList
-            data={categories}
-            renderItem={renderCategoryItem}
-            keyExtractor={(item) => item.id}
-            numColumns={3}
-            columnWrapperStyle={styles.categoryRow}
-            scrollEnabled={false} // Disable scrolling for the FlatList inside the ScrollView
-          />
-        </View>
-
-        {selectedCategory && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Dishes</Text>
-            <FlatList
-              data={filteredDishes}
-              renderItem={renderDishItem}
-              keyExtractor={(item) => item.id}
-              scrollEnabled={false}
-            />
-          </View>
-        )}
-      </ScrollView>
+      {/* Content */}
+      {selectedCategory ? (
+        <FlatList
+          data={filteredDishes}
+          renderItem={renderDishItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.contentContainer}
+          ListHeaderComponent={
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Dishes</Text>
+            </View>
+          }
+        />
+      ) : (
+        <FlatList
+          data={categories}
+          renderItem={renderCategoryItem}
+          keyExtractor={(item) => item.id}
+          numColumns={3}
+          columnWrapperStyle={styles.categoryRow}
+          contentContainerStyle={styles.contentContainer}
+          ListHeaderComponent={
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Browse Menu</Text>
+            </View>
+          }
+        />
+      )}
     </View>
   );
 };
@@ -140,12 +141,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F9F9F9',
   },
-  scrollViewContent: {
+  contentContainer: {
     paddingHorizontal: 20,
     paddingTop: 20,
+    paddingBottom: 20,
   },
   section: {
-    marginBottom: 30,
+    marginBottom: 20,
   },
   sectionTitle: {
     fontSize: 22,
@@ -215,12 +217,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#B71C1C',
     fontWeight: 'bold',
-  },
-  selectCategoryText: {
-    fontSize: 18,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: 50,
   },
 });
 
