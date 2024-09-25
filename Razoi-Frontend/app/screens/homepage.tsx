@@ -81,6 +81,7 @@ const HomeScreen: React.FC = () => {
             renderItem={renderCategoryItem}
             keyExtractor={(item) => item.id}
             showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.categoryList} // Added style for left margin
           />
         </View>
 
@@ -175,6 +176,9 @@ const styles = StyleSheet.create({
     color: '#333',
     marginHorizontal: 20,
     marginBottom: 10,
+  },
+  categoryList: {
+    paddingLeft: 20, // Added left margin for category list
   },
   categoryItem: {
     alignItems: 'center',
