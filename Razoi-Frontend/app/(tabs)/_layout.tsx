@@ -1,9 +1,7 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { Animated } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-
-type IoniconName = React.ComponentProps<typeof Ionicons>['name'];
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Import Material Icons
 
 export default function TabLayout() {
   return (
@@ -39,20 +37,20 @@ export default function TabLayout() {
             });
           }
 
-          // Define the iconName with the correct type
-          let iconName: IoniconName = 'home-outline';
+          // Define the iconName with Material Icons
+          let iconName = 'home';
 
           if (route.name === 'index') {
-            iconName = focused ? 'home' : 'home-outline';
+            iconName = focused ? 'home' : 'home-outlined'; // Material Icon variations
           } else if (route.name === 'browseMenu') {
-            iconName = focused ? 'list' : 'list-outline';
+            iconName = focused ? 'restaurant' : 'restaurant-menu'; // Menu icon
           } else if (route.name === 'account') {
-            iconName = focused ? 'person' : 'person-outline';
+            iconName = focused ? 'account-circle' : 'person-outline'; // Account icon
           }
 
           return (
             <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
-              <Ionicons name={iconName} size={24} color={color} />
+              <MaterialIcons name={iconName} size={24} color={color} />
             </Animated.View>
           );
         },

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Use Material Icons
 
 interface HeaderProps {
   address: string;
@@ -16,25 +16,25 @@ const Header: React.FC<HeaderProps> = ({ address, setAddress }) => {
           <Text style={styles.deliveryText}>Deliver Now</Text>
           <TouchableOpacity style={styles.addressTextContainer}>
             <Text style={styles.addressText}>{address}</Text>
-            <Ionicons name="chevron-down-outline" size={20} color="#000" />
+            <MaterialIcons name="keyboard-arrow-down" size={20} color="#000" />
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.profileIconContainer}>
-          <Ionicons name="person-circle-outline" size={30} color="#000" />
+          <MaterialIcons name="person-outline" size={30} color="#000" />
         </TouchableOpacity>
       </View>
 
       {/* Search Bar Section */}
       <View style={styles.searchBarContainer}>
-        <Ionicons name="search-outline" size={20} color="#888" style={styles.searchIcon} />
+        <MaterialIcons name="search" size={20} color="#888" style={styles.searchIcon} />
         <TextInput
           style={styles.searchBar}
           placeholder="Search for dishes & restaurants"
           placeholderTextColor="#888"
         />
-        <Ionicons name="mic-outline" size={20} color="#888" style={styles.micIcon} />
+        <MaterialIcons name="mic" size={20} color="#888" style={styles.micIcon} />
         <TouchableOpacity style={styles.filterIconContainer}>
-          <Ionicons name="options-outline" size={20} color="#000" />
+          <MaterialIcons name="tune" size={20} color="#000" />
         </TouchableOpacity>
       </View>
     </View>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   searchBarContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0', // Light gray background for the search bar
+    backgroundColor: '#f0f0f0',
     borderRadius: 25,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
   filterIconContainer: {
     marginLeft: 10,
     padding: 8,
-    backgroundColor: '#e0e0e0', // Soft background color for filter icon
-    borderRadius: 25, // Circular shape
+    backgroundColor: '#e0e0e0',
+    borderRadius: 25,
   },
 });
 
