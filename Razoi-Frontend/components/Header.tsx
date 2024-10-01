@@ -43,9 +43,8 @@ const Header: React.FC<HeaderProps> = ({ address, setAddress }) => {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    width: '100%',
     backgroundColor: '#fff',
-    paddingVertical: 20,
+    paddingBottom: 20,
     paddingHorizontal: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',

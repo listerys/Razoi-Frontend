@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Header from '../../components/Header';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Category {
   id: string;
@@ -66,9 +67,10 @@ const HomeScreen: React.FC = () => {
   );
 
   return  (
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+            <Header address={address} setAddress={setAddress} />
     <View style={styles.container}>
       {/* Header */}
-      <Header address={address} setAddress={setAddress} />
 
       {/* Content */}
       <ScrollView>
@@ -125,6 +127,7 @@ const HomeScreen: React.FC = () => {
         </View>
       </ScrollView>
     </View>
+    </SafeAreaView>
   );
 };
 
