@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ address, setAddress }) => {
         <MaterialIcons name="search" size={20} color="#888" style={styles.searchIcon} />
         <TextInput
           style={styles.searchBar}
-          placeholder="Search for dishes & restaurants"
+          placeholder="Search for dishes & cuisines"
           placeholderTextColor="#888"
         />
         <MaterialIcons name="mic" size={20} color="#888" style={styles.micIcon} />
