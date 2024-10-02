@@ -7,13 +7,15 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import Header from '../../components/Header'; // Import the header component
+import Header from '../../components/Header'; 
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Dish {
   id: string;
   name: string;
   image: string;
   price: string;
+  category: string;
 }
 
 interface Category {
@@ -32,23 +34,6 @@ const BrowseMenu: React.FC = () => {
     { id: '3', name: 'Chinese', icon: 'https://via.placeholder.com/50' },
     { id: '4', name: 'Italian', icon: 'https://via.placeholder.com/50' },
     { id: '5', name: 'Arabic', icon: 'https://via.placeholder.com/50' },
-    { id: '6', name: 'Mughlai', icon: 'https://via.placeholder.com/50' },
-    { id: '7', name: 'Punjabi', icon: 'https://via.placeholder.com/50' },
-    { id: '8', name: 'Gujarati', icon: 'https://via.placeholder.com/50' },
-    { id: '9', name: 'Rajasthani', icon: 'https://via.placeholder.com/50' },
-    { id: '10', name: 'Bengali', icon: 'https://via.placeholder.com/50' },
-    // Dish Types
-    { id: '11', name: 'Soups', icon: 'https://via.placeholder.com/50' },
-    { id: '12', name: 'Chicken', icon: 'https://via.placeholder.com/50' },
-    { id: '13', name: 'Vegetarian', icon: 'https://via.placeholder.com/50' },
-    { id: '14', name: 'Seafood', icon: 'https://via.placeholder.com/50' },
-    { id: '15', name: 'Sweet Tooth', icon: 'https://via.placeholder.com/50' },
-    { id: '16', name: 'Breads', icon: 'https://via.placeholder.com/50' },
-    { id: '17', name: 'Rice Dishes', icon: 'https://via.placeholder.com/50' },
-    { id: '18', name: 'Starters', icon: 'https://via.placeholder.com/50' },
-    { id: '19', name: 'Beverages', icon: 'https://via.placeholder.com/50' },
-    { id: '20', name: 'Desserts', icon: 'https://via.placeholder.com/50' },
-    // Add more categories
   ];
 
   const dishes: Dish[] = [
@@ -57,31 +42,41 @@ const BrowseMenu: React.FC = () => {
       name: 'Chicken Biryani',
       image: 'https://via.placeholder.com/100',
       price: '$10',
+      category: 'Indian',
     },
     {
       id: '2',
       name: 'Paneer Butter Masala',
       image: 'https://via.placeholder.com/100',
       price: '$8',
+      category: 'Indian',
     },
-    // Add more dishes
+    {
+      id: '3',
+      name: 'Pasta',
+      image: 'https://via.placeholder.com/100',
+      price: '$12',
+      category: 'Italian',
+    },
   ];
 
-  const filteredDishes = selectedCategory ? dishes : [];
+  const filteredDishes = selectedCategory
+    ? dishes.filter(dish => dish.category === selectedCategory)
+    : [];
 
   const renderCategoryItem = ({ item }: { item: Category }) => (
     <TouchableOpacity
       style={[
         styles.categoryItem,
-        item.id === selectedCategory && styles.selectedCategoryItem,
+        item.name === selectedCategory && styles.selectedCategoryItem,
       ]}
-      onPress={() => setSelectedCategory(item.id)}
+      onPress={() => setSelectedCategory(item.name)}
     >
       <Image source={{ uri: item.icon }} style={styles.categoryIcon} />
       <Text
         style={[
           styles.categoryText,
-          item.id === selectedCategory && styles.selectedCategoryText,
+          item.name === selectedCategory && styles.selectedCategoryText,
         ]}
       >
         {item.name}
@@ -100,46 +95,48 @@ const BrowseMenu: React.FC = () => {
   );
 
   return (
-    <View style={styles.container}>
-      {/* Fixed Header */}
-      <Header address={address} setAddress={setAddress} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
+      <View style={styles.container}>
+        {/* Fixed Header */}
+        <Header address={address} setAddress={setAddress} />
 
-      {/* Content */}
-      {selectedCategory ? (
-        <FlatList
-          data={filteredDishes}
-          renderItem={renderDishItem}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.contentContainer}
-          ListHeaderComponent={
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Dishes</Text>
-            </View>
-          }
-        />
-      ) : (
-        <FlatList
-          data={categories}
-          renderItem={renderCategoryItem}
-          keyExtractor={(item) => item.id}
-          numColumns={3}
-          columnWrapperStyle={styles.categoryRow}
-          contentContainerStyle={styles.contentContainer}
-          ListHeaderComponent={
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Browse Menu</Text>
-            </View>
-          }
-        />
-      )}
-    </View>
+        {/* Content */}
+        {selectedCategory ? (
+          <FlatList
+            data={filteredDishes}
+            renderItem={renderDishItem}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.contentContainer}
+            ListHeaderComponent={
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Dishes</Text>
+              </View>
+            }
+          />
+        ) : (
+          <FlatList
+            data={categories}
+            renderItem={renderCategoryItem}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            columnWrapperStyle={styles.categoryRow}
+            contentContainerStyle={styles.contentContainer}
+            ListHeaderComponent={
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Browse Menu</Text>
+              </View>
+            }
+          />
+        )}
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#F4F4F4',
   },
   contentContainer: {
     paddingHorizontal: 20,
@@ -150,27 +147,28 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#B71C1C',
-    marginBottom: 20,
+    color: '#333',
+    marginBottom: 15,
   },
   categoryRow: {
     justifyContent: 'space-between',
   },
   categoryItem: {
     flex: 1,
-    margin: 5,
+    margin: 10,
     alignItems: 'center',
     paddingVertical: 15,
-    borderRadius: 10,
+    borderRadius: 15,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: '#DADADA',
     backgroundColor: '#FFFFFF',
+    transition: 'background-color 0.3s ease',
   },
   selectedCategoryItem: {
-    backgroundColor: '#B71C1C',
-    borderColor: '#B71C1C',
+    backgroundColor: '#4CAF50',
+    borderColor: '#4CAF50',
   },
   categoryIcon: {
     width: 60,
@@ -193,15 +191,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
     backgroundColor: '#FFFFFF',
-    padding: 15,
-    borderRadius: 10,
+    padding: 20,
+    borderRadius: 15,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: '#D1D1D1',
   },
   dishImage: {
     width: 80,
     height: 80,
-    borderRadius: 10,
+    borderRadius: 15,
     marginRight: 15,
   },
   dishInfo: {
@@ -215,7 +213,7 @@ const styles = StyleSheet.create({
   },
   dishPrice: {
     fontSize: 16,
-    color: '#B71C1C',
+    color: '#4CAF50',
     fontWeight: 'bold',
   },
 });

@@ -133,7 +133,6 @@ const HomeScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#F9F9F9',
   },
   header: {
