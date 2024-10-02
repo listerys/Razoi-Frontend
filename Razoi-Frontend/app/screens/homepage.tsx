@@ -73,7 +73,7 @@ const HomeScreen: React.FC = () => {
       {/* Header */}
 
       {/* Content */}
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Categories Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Categories</Text>
