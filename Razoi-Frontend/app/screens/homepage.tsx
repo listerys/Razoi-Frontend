@@ -1,18 +1,19 @@
+// HomeScreen.tsx
 import React, { useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
   FlatList,
   StyleSheet,
   TouchableOpacity,
   Image,
   ScrollView,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import Header from '../../components/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Header from '../../components/Header';
+import { Card, Title, Paragraph } from 'react-native-paper';
 
+// Define Category and Dish types
 interface Category {
   id: string;
   name: string;
@@ -29,50 +30,72 @@ interface Dish {
 const HomeScreen: React.FC = () => {
   const [address, setAddress] = useState<string>('123 Street, City');
 
-  // Categories as provided
+  // Define the categories and dishes data arrays
   const categories: Category[] = [
-    { id: '1', name: 'Best Seller', icon: 'https://via.placeholder.com/50' },
-    { id: '2', name: 'Indian', icon: 'https://via.placeholder.com/50' },
-    { id: '3', name: 'Chinese', icon: 'https://via.placeholder.com/50' },
-    { id: '4', name: 'Italian', icon: 'https://via.placeholder.com/50' },
-    { id: '5', name: 'Fast Food', icon: 'https://via.placeholder.com/50' },
+    { id: '1', name: 'Best Seller', icon: 'https://via.placeholder.com/150' },
+    { id: '2', name: 'Indian', icon: 'https://via.placeholder.com/150' },
+    { id: '3', name: 'Chinese', icon: 'https://via.placeholder.com/150' },
+    { id: '4', name: 'Italian', icon: 'https://via.placeholder.com/150' },
+    { id: '5', name: 'Fast Food', icon: 'https://via.placeholder.com/150' },
   ];
 
-  // Sample dishes
   const dishes: Dish[] = [
-    { id: '1', name: 'Dish 1', image: 'https://via.placeholder.com/100', price: '₹70 / Kg' },
-    { id: '2', name: 'Dish 2', image: 'https://via.placeholder.com/100', price: '₹120 / Kg' },
-    { id: '3', name: 'Dish 3', image: 'https://via.placeholder.com/100', price: '₹150 / Kg' },
-    { id: '4', name: 'Dish 4', image: 'https://via.placeholder.com/100', price: '₹200 / Kg' },
+    {
+      id: '1',
+      name: 'Dish 1',
+      image: 'https://via.placeholder.com/300',
+      price: '₹70 / Kg',
+    },
+    {
+      id: '2',
+      name: 'Dish 2',
+      image: 'https://via.placeholder.com/300',
+      price: '₹120 / Kg',
+    },
+    {
+      id: '3',
+      name: 'Dish 3',
+      image: 'https://via.placeholder.com/300',
+      price: '₹150 / Kg',
+    },
+    {
+      id: '4',
+      name: 'Dish 4',
+      image: 'https://via.placeholder.com/300',
+      price: '₹200 / Kg',
+    },
   ];
 
+  // Function to render each category item
   const renderCategoryItem = ({ item }: { item: Category }) => (
-    <TouchableOpacity style={styles.categoryItem}>
+    <TouchableOpacity style={styles.categoryItem} activeOpacity={0.8}>
       <Image source={{ uri: item.icon }} style={styles.categoryIcon} />
       <Text style={styles.categoryText}>{item.name}</Text>
     </TouchableOpacity>
   );
 
+  // Function to render each dish item
   const renderDishItem = ({ item }: { item: Dish }) => (
-    <View style={styles.dishContainer}>
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: item.image }} style={styles.dishImage} />
-        <TouchableOpacity style={styles.addButton}>
-          <Ionicons name="add" size={16} color="#000" />
-        </TouchableOpacity>
-      </View>
-      <Text style={styles.dishName}>{item.name}</Text>
-      <Text style={styles.dishPrice}>{item.price}</Text>
-    </View>
+    <TouchableOpacity
+      style={styles.dishContainer}
+      activeOpacity={0.8}
+      onPress={() => console.log('Dish pressed:', item.name)}
+    >
+<Card mode="contained" style={styles.dishCard}>
+  <Card.Cover source={{ uri: item.image }} style={styles.dishImage} />
+  <Card.Content>
+    <Title style={styles.dishName}>{item.name}</Title>
+    <Paragraph style={styles.dishPrice}>{item.price}</Paragraph>
+  </Card.Content>
+</Card>
+
+
+    </TouchableOpacity>
   );
 
-  return  (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
-            <Header address={address} setAddress={setAddress} />
-    <View style={styles.container}>
-      {/* Header */}
-
-      {/* Content */}
+  return (
+    <SafeAreaView style={styles.container}>
+      <Header address={address} setAddress={setAddress} />
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Categories Section */}
         <View style={styles.section}>
@@ -83,11 +106,11 @@ const HomeScreen: React.FC = () => {
             renderItem={renderCategoryItem}
             keyExtractor={(item) => item.id}
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.categoryList} // Added style for left margin
+            contentContainerStyle={styles.categoryList}
           />
         </View>
 
-        {/* Popular Section */}
+        {/* Popular Dishes Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Popular</Text>
           <FlatList
@@ -100,139 +123,118 @@ const HomeScreen: React.FC = () => {
           />
         </View>
 
-        {/* Recommended for you Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recommended for you</Text>
-          <FlatList
-            horizontal
-            data={dishes}
-            renderItem={renderDishItem}
-            keyExtractor={(item) => item.id}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.dishList}
+        {/* Promotional Banner */}
+        <View style={styles.bannerContainer}>
+          <Image
+            source={{
+              uri: 'https://via.placeholder.com/600x300?text=Special+Offer',
+            }}
+            style={styles.bannerImage}
           />
-        </View>
-
-        {/* Order Again Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Order Again</Text>
-          <FlatList
-            horizontal
-            data={dishes}
-            renderItem={renderDishItem}
-            keyExtractor={(item) => item.id}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.dishList}
-          />
+          <TouchableOpacity style={styles.bannerButton}>
+            <Text style={styles.bannerButtonText}>Order Now</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#F9F9F9',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
     backgroundColor: '#FFFFFF',
   },
-  addressText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#F1F1F1',
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    alignItems: 'center',
-    marginHorizontal: 20,
-    marginTop: 10,
-    paddingVertical: 10,
-  },
-  searchBar: {
-    flex: 1,
-    marginLeft: 10,
-    fontSize: 16,
-    color: '#333',
-  },
-  filterButton: {
-    backgroundColor: '#FFA500',
-    padding: 6,
-    borderRadius: 8,
-  },
   section: {
-    marginVertical: 20,
+    marginTop: 20,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#333333',
     marginHorizontal: 20,
-    marginBottom: 10,
+    marginBottom: 15,
   },
   categoryList: {
-    paddingLeft: 20, // Added left margin for category list
+    paddingLeft: 20,
   },
   categoryItem: {
-    alignItems: 'center',
-    marginRight: 20,
+    width: 120,
+    height: 150,
+    marginRight: 15,
+    borderRadius: 15,
+    backgroundColor: '#FFFFFF',
+    elevation: 0,
+    shadowOpacity: 0,
   },
   categoryIcon: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    marginBottom: 5,
-    backgroundColor: '#F1F1F1',
+    width: '100%',
+    height: '100%',
+    borderRadius: 15,
   },
   categoryText: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#333',
-  },
-  dishContainer: {
-    width: 140,
-    marginHorizontal: 10,
-  },
-  imageContainer: {
-    position: 'relative', // Helps to position the add button over the image
-  },
-  dishImage: {
-    width: '100%',
-    height: 100,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  addButton: {
     position: 'absolute',
-    bottom: 20,  // Position as per the image
-    right: 10,   // Position as per the image
-    backgroundColor: '#fff',
-    width: 25,
-    height: 25,
-    borderRadius: 12, // Slightly rounded square
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  dishName: {
+    bottom: 10,
+    left: 10,
+    color: '#000000',
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
-  },
-  dishPrice: {
-    fontSize: 14,
-    color: '#888',
   },
   dishList: {
-    paddingHorizontal: 10,
+    paddingLeft: 20,
+  },
+  dishContainer: {
+    marginRight: 15,
+  },
+  dishCard: {
+    width: 200,
+    padding: 0,
+    margin: 5,
+    backgroundColor: 'FFFFFF',
+    elevation: 0, // Android
+    shadowOpacity: 0, // iOS
+    shadowRadius: 0, // iOS
+    shadowColor: 'transparent', // iOS
+    shadowOffset: { width: 0, height: 0 }, // iOS
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  dishImage: {
+    height: 150,
+    borderRadius: 15,
+  },
+  dishName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333333',
+  },
+  dishPrice: {
+    fontSize: 16,
+    color: '#333333',
+    marginTop: 5,
+  },
+  bannerContainer: {
+    marginHorizontal: 20,
+    marginTop: 30,
+    borderRadius: 15,
+    overflow: 'hidden',
+  },
+  bannerImage: {
+    width: '100%',
+    height: 150,
+  },
+  bannerButton: {
+    position: 'absolute',
+    bottom: 15,
+    right: 15,
+    backgroundColor: '#000000',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 25,
+  },
+  bannerButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

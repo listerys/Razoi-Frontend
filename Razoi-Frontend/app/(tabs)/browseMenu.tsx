@@ -1,3 +1,4 @@
+// BrowseMenu.tsx
 import React, { useState } from 'react';
 import {
   View,
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 import Header from '../../components/Header';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Card, Title, Paragraph } from 'react-native-paper';
 
 interface Dish {
   id: string;
@@ -57,34 +59,34 @@ const BrowseMenu: React.FC = () => {
     },
     {
       id: '6',
-      name: 'Toys', // Add the new category here
+      name: 'Toys',
       icon: 'https://via.placeholder.com/100?text=Toys',
     },
   ];
-  
 
   const dishes: Dish[] = [
     {
       id: '1',
       name: 'Chicken Biryani',
-      image: 'https://via.placeholder.com/100',
-      price: '$10',
+      image: 'https://via.placeholder.com/300',
+      price: '₹200',
       category: 'Groceries',
     },
     {
       id: '2',
       name: 'Paneer Butter Masala',
-      image: 'https://via.placeholder.com/100',
-      price: '$8',
+      image: 'https://via.placeholder.com/300',
+      price: '₹180',
       category: 'Groceries',
     },
     {
       id: '3',
-      name: 'Pasta',
-      image: 'https://via.placeholder.com/100',
-      price: '$12',
+      name: 'Gadget XYZ',
+      image: 'https://via.placeholder.com/300',
+      price: '₹1200',
       category: 'Electronics',
     },
+    // Add more dishes with different categories
   ];
 
   const filteredDishes = selectedCategory
@@ -95,25 +97,14 @@ const BrowseMenu: React.FC = () => {
 
   const numColumns = screenWidth >= 600 ? 3 : 3;
 
-  const paddingHorizontal = 20;
-  const marginHorizontal = 10;
-
-  const tileSize =
-    (screenWidth - paddingHorizontal * 2 - marginHorizontal * numColumns * 2) /
-    numColumns;
-
   const renderCategoryItem = ({ item }: { item: Category }) => (
     <TouchableOpacity
       style={[
         styles.categoryItem,
-        {
-          width: tileSize,
-          height: tileSize,
-        },
         item.name === selectedCategory && styles.selectedCategoryItem,
       ]}
       onPress={() => setSelectedCategory(item.name)}
-      activeOpacity={0.7}
+      activeOpacity={0.8}
     >
       <Image source={{ uri: item.icon }} style={styles.categoryIcon} />
       <Text
@@ -128,12 +119,18 @@ const BrowseMenu: React.FC = () => {
   );
 
   const renderDishItem = ({ item }: { item: Dish }) => (
-    <TouchableOpacity style={styles.dishItem}>
-      <Image source={{ uri: item.image }} style={styles.dishImage} />
-      <View style={styles.dishInfo}>
-        <Text style={styles.dishName}>{item.name}</Text>
-        <Text style={styles.dishPrice}>{item.price}</Text>
-      </View>
+    <TouchableOpacity
+      style={styles.dishItem}
+      activeOpacity={0.8}
+      onPress={() => console.log('Dish pressed:', item.name)}
+    >
+      <Card style={styles.dishCard}>
+        <Card.Cover source={{ uri: item.image }} style={styles.dishImage} />
+        <Card.Content>
+          <Title style={styles.dishName}>{item.name}</Title>
+          <Paragraph style={styles.dishPrice}>{item.price}</Paragraph>
+        </Card.Content>
+      </Card>
     </TouchableOpacity>
   );
 
@@ -145,35 +142,46 @@ const BrowseMenu: React.FC = () => {
         resizeMode="cover"
       />
       <TouchableOpacity style={styles.bannerButton}>
-        <Text style={styles.bannerButtonText}>Order Now</Text>
+        <Text style={styles.bannerButtonText}>Shop Now</Text>
       </TouchableOpacity>
     </View>
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
-      <View style={styles.container}>
-        {/* Fixed Header */}
-        <Header address={address} setAddress={setAddress} />
+    <SafeAreaView style={styles.container}>
+      {/* Fixed Header */}
+      <Header address={address} setAddress={setAddress} />
 
-        {/* Content */}
+      {/* Content */}
+      {selectedCategory ? (
         <FlatList
-          data={selectedCategory ? filteredDishes : categories}
-          renderItem={selectedCategory ? renderDishItem : renderCategoryItem}
+          data={filteredDishes}
+          renderItem={renderDishItem}
           keyExtractor={(item) => item.id}
-          numColumns={selectedCategory ? 1 : numColumns}
-          columnWrapperStyle={!selectedCategory ? styles.categoryRow : undefined}
+          numColumns={1}
           contentContainerStyle={styles.contentContainer}
           ListHeaderComponent={
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>
-                {selectedCategory ? 'Dishes' : 'Browse Categories'}
-              </Text>
+              <Text style={styles.sectionTitle}>{selectedCategory}</Text>
             </View>
           }
           ListFooterComponent={renderPromotionalBanner}
         />
-      </View>
+      ) : (
+        <FlatList
+          data={categories}
+          renderItem={renderCategoryItem}
+          keyExtractor={(item) => item.id}
+          numColumns={numColumns}
+          columnWrapperStyle={styles.categoryRow}
+          contentContainerStyle={styles.contentContainer}
+          ListHeaderComponent={
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Browse Categories</Text>
+            </View>
+          }
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -181,7 +189,7 @@ const BrowseMenu: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5', // Light grey background for modern look
+    backgroundColor: '#FFFFFF',
   },
   contentContainer: {
     paddingHorizontal: 20,
@@ -194,88 +202,78 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#212121', // Darker grey text
+    color: '#333333',
     marginBottom: 15,
+    fontFamily: 'Roboto-Bold',
   },
   categoryRow: {
     justifyContent: 'space-between',
   },
   categoryItem: {
-    margin: 10,
     alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 12,
-    backgroundColor: '#FFFFFF', // White background for category items
+    marginBottom: 20,
+    width: '30%',
   },
   selectedCategoryItem: {
-    backgroundColor: '#E0F7FA', // Light cyan for selected category
+    backgroundColor: '#E0F7FA',
+    borderRadius: 15,
+    padding: 10,
   },
   categoryIcon: {
-    width: 60,  // Reduced the size to fit better in the card
-    height: 60, // Reduced the size to fit better in the card
+    width: 80,
+    height: 80,
+    borderRadius: 15,
     marginBottom: 10,
-    borderRadius: 30, // Adjusted to match the new size, keeping the image round
   },
   categoryText: {
     fontSize: 14,
     fontWeight: '600',
     color: '#212121',
     textAlign: 'center',
-    paddingHorizontal: 5,
+    fontFamily: 'Roboto-Regular',
   },
   selectedCategoryText: {
-    color: '#00796B', // Teal color for selected text
+    color: '#00796B',
     fontWeight: 'bold',
-    fontSize: 6,
   },
   dishItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
     marginBottom: 20,
-    backgroundColor: '#FFFFFF',
-    padding: 20,
+  },
+  dishCard: {
     borderRadius: 15,
-    // Removed fixed height to allow content to dictate card size
-    justifyContent: 'space-between',
+    overflow: 'hidden',
   },
   dishImage: {
-    width: 100, // Adjusted dimensions
-    height: 100,
-    borderRadius: 15,
-    marginRight: 15,
-  },
-  
-  dishInfo: {
-    flex: 1,
-    justifyContent: 'center', // Centers text vertically
+    height: 200,
   },
   dishName: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#212121',
-    marginBottom: 5,
-    textAlign: 'center', // Center the text horizontally
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333333',
+    fontFamily: 'Roboto-Bold',
   },
   dishPrice: {
-    fontSize: 16,
-    color: '#00796B', // Teal color for price
-    fontWeight: 'bold',
-    textAlign: 'center', // Center the text horizontally
+    fontSize: 18,
+    color: '#FF6F61',
+    marginTop: 5,
+    fontFamily: 'Roboto-Regular',
   },
   bannerContainer: {
     marginHorizontal: 20,
     marginTop: 20,
     alignItems: 'center',
+    borderRadius: 15,
+    overflow: 'hidden',
+    elevation: 3,
   },
   bannerImage: {
     width: '100%',
     height: 150,
-    borderRadius: 15,
   },
   bannerButton: {
     position: 'absolute',
     bottom: 20,
-    backgroundColor: '#00796B', // Teal color for the button
+    backgroundColor: '#FF6F61',
     paddingHorizontal: 30,
     paddingVertical: 10,
     borderRadius: 25,
@@ -284,6 +282,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
+    fontFamily: 'Roboto-Bold',
   },
 });
 
