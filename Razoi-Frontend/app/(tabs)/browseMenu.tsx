@@ -55,7 +55,13 @@ const BrowseMenu: React.FC = () => {
       name: 'Books',
       icon: 'https://via.placeholder.com/100?text=Books',
     },
+    {
+      id: '6',
+      name: 'Toys', // Add the new category here
+      icon: 'https://via.placeholder.com/100?text=Toys',
+    },
   ];
+  
 
   const dishes: Dish[] = [
     {
@@ -205,13 +211,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#E0F7FA', // Light cyan for selected category
   },
   categoryIcon: {
-    width: 70,
-    height: 70,
+    width: 60,  // Reduced the size to fit better in the card
+    height: 60, // Reduced the size to fit better in the card
     marginBottom: 10,
-    borderRadius: 35, // Round image
+    borderRadius: 30, // Adjusted to match the new size, keeping the image round
   },
   categoryText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
     color: '#212121',
     textAlign: 'center',
@@ -220,6 +226,7 @@ const styles = StyleSheet.create({
   selectedCategoryText: {
     color: '#00796B', // Teal color for selected text
     fontWeight: 'bold',
+    fontSize: 6,
   },
   dishItem: {
     flexDirection: 'row',
