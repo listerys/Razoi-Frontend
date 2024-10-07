@@ -73,7 +73,7 @@ const HomeScreen: React.FC = () => {
       {/* Header */}
 
       {/* Content */}
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Categories Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Categories</Text>
@@ -133,7 +133,6 @@ const HomeScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#F9F9F9',
   },
   header: {

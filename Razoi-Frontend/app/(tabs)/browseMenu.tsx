@@ -55,7 +55,13 @@ const BrowseMenu: React.FC = () => {
       name: 'Books',
       icon: 'https://via.placeholder.com/100?text=Books',
     },
+    {
+      id: '6',
+      name: 'Toys', // Add the new category here
+      icon: 'https://via.placeholder.com/100?text=Toys',
+    },
   ];
+  
 
   const dishes: Dish[] = [
     {

@@ -1,7 +1,7 @@
 import React from 'react';
-import { StatusBar, View, Animated } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import { Tabs } from 'expo-router';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'; // Import Material Icons
+import { Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   return (
@@ -16,8 +16,9 @@ export default function TabLayout() {
           tabBarStyle: {
             backgroundColor: '#FFFFFF',
             borderTopWidth: 1,
-            borderTopColor: '#E0E0E0',
-            height: 60,
+            elevation: 0, // Removes shadow on Android
+            height: 100,
+            borderTopColor: '#ddd',
           },
           tabBarLabelStyle: {
             fontSize: 12,
@@ -25,37 +26,17 @@ export default function TabLayout() {
             marginBottom: 5,
           },
           tabBarIcon: ({ focused, color }) => {
-            const scaleValue = new Animated.Value(1);
-
-            if (focused) {
-              Animated.spring(scaleValue, {
-                toValue: 1.2,
-                friction: 4,
-                useNativeDriver: true,
-              }).start(() => {
-                Animated.spring(scaleValue, {
-                  toValue: 1,
-                  friction: 4,
-                  useNativeDriver: true,
-                }).start();
-              });
-            }
-
-            let iconName = 'home';
+            let iconName: keyof typeof Ionicons.glyphMap = 'home-outline'; // Default icon name
 
             if (route.name === 'index') {
-              iconName = focused ? 'home' : 'home-outlined';
+              iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'browseMenu') {
-              iconName = focused ? 'restaurant' : 'restaurant-menu';
+              iconName = focused ? 'restaurant' : 'restaurant-outline';
             } else if (route.name === 'account') {
-              iconName = focused ? 'account-circle' : 'person-outline';
+              iconName = focused ? 'person' : 'person-outline';
             }
 
-            return (
-              <Animated.View style={{ transform: [{ scale: scaleValue }] }}>
-                <MaterialIcons name={iconName} size={24} color={color} />
-              </Animated.View>
-            );
+            return <Ionicons name={iconName} size={24} color={color} />;
           },
           headerShown: false,
         })}
