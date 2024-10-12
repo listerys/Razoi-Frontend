@@ -42,8 +42,8 @@ const HomeScreen: React.FC = () => {
   const dishes: Dish[] = [
     {
       id: '1',
-      name: 'Dish 1',
-      image: 'https://via.placeholder.com/300',
+      name: 'Pav Bhaji',
+      image: 'https://i.ibb.co/6s84STf/eee82372-f7c9-4cb5-8d61-501c3b9c64ae.webp',
       price: '₹70 / Kg',
     },
     {
