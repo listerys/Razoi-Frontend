@@ -1,4 +1,3 @@
-// HomeScreen.tsx
 import React, { useState } from 'react';
 import {
   View,
@@ -12,6 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../components/Header';
 import { Card, Title, Paragraph } from 'react-native-paper';
+import { LinearGradient } from 'expo-linear-gradient'; // Import LinearGradient
 
 // Define Category and Dish types
 interface Category {
@@ -32,11 +32,11 @@ const HomeScreen: React.FC = () => {
 
   // Define the categories and dishes data arrays
   const categories: Category[] = [
-    { id: '1', name: 'Best Seller', icon: 'https://via.placeholder.com/150' },
-    { id: '2', name: 'Indian', icon: 'https://via.placeholder.com/150' },
-    { id: '3', name: 'Chinese', icon: 'https://via.placeholder.com/150' },
-    { id: '4', name: 'Italian', icon: 'https://via.placeholder.com/150' },
-    { id: '5', name: 'Fast Food', icon: 'https://via.placeholder.com/150' },
+    { id: '1', name: 'Best Seller', icon: 'https://i.ibb.co/CtRpZF4/e2a097e7-6d70-43e7-910e-16a6db76da8f.jpg' },
+    { id: '2', name: 'Indian', icon: 'https://i.ibb.co/KNRC63s/491d77c3-1acc-4f27-acb2-2e3d4a6cdbe2.jpg' },
+    { id: '3', name: 'Chinese', icon: 'https://i.ibb.co/v4jV7NP/1f1974a6-f3c7-4de1-8f41-51738329db86.jpg' },
+    { id: '4', name: 'Italian', icon: 'https://i.ibb.co/QNKmQBB/f0bfc299-07dd-4165-a7cc-502dd101266b.jpg' },
+    { id: '5', name: 'Fast Food', icon: 'https://i.ibb.co/TBhjGR7/generated-image.jpg' },
   ];
 
   const dishes: Dish[] = [
@@ -66,11 +66,16 @@ const HomeScreen: React.FC = () => {
     },
   ];
 
-  // Function to render each category item
+  // Function to render each category item with gradient background and white text
   const renderCategoryItem = ({ item }: { item: Category }) => (
     <TouchableOpacity style={styles.categoryItem} activeOpacity={0.8}>
       <Image source={{ uri: item.icon }} style={styles.categoryIcon} />
-      <Text style={styles.categoryText}>{item.name}</Text>
+      <LinearGradient
+        colors={['transparent', 'rgba(0,0,0,0.8)']} // Gradient from transparent to black
+        style={styles.gradientOverlay}
+      >
+        <Text style={styles.categoryText}>{item.name}</Text>
+      </LinearGradient>
     </TouchableOpacity>
   );
 
@@ -81,15 +86,13 @@ const HomeScreen: React.FC = () => {
       activeOpacity={0.8}
       onPress={() => console.log('Dish pressed:', item.name)}
     >
-<Card mode="contained" style={styles.dishCard}>
-  <Card.Cover source={{ uri: item.image }} style={styles.dishImage} />
-  <Card.Content>
-    <Title style={styles.dishName}>{item.name}</Title>
-    <Paragraph style={styles.dishPrice}>{item.price}</Paragraph>
-  </Card.Content>
-</Card>
-
-
+      <Card mode="contained" style={styles.dishCard}>
+        <Card.Cover source={{ uri: item.image }} style={styles.dishImage} />
+        <Card.Content>
+          <Title style={styles.dishName}>{item.name}</Title>
+          <Paragraph style={styles.dishPrice}>{item.price}</Paragraph>
+        </Card.Content>
+      </Card>
     </TouchableOpacity>
   );
 
@@ -175,9 +178,18 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     left: 10,
-    color: '#000000',
+    color: '#FFFFFF', // Change text to white
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  gradientOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '40%', // Height of the gradient overlay
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   dishList: {
     paddingLeft: 20,
@@ -190,11 +202,11 @@ const styles = StyleSheet.create({
     padding: 0,
     margin: 5,
     backgroundColor: 'FFFFFF',
-    elevation: 0, // Android
-    shadowOpacity: 0, // iOS
-    shadowRadius: 0, // iOS
-    shadowColor: 'transparent', // iOS
-    shadowOffset: { width: 0, height: 0 }, // iOS
+    elevation: 0,
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    shadowColor: 'transparent',
+    shadowOffset: { width: 0, height: 0 },
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
